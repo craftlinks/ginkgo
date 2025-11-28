@@ -5,7 +5,7 @@ UNAME_S := $(shell uname -s)
 CONFIG ?= debug
 CXXFLAGS_COMMON  = -g -std=c++11 -MMD -MP -Isrc/ -I. \
 	-Wno-vla-cxx-extension -Werror -Wno-string-plus-int -Wno-reorder-init-list -Wno-c99-designator \
-	-fstandalone-debug -fno-omit-frame-pointer 
+	-fstandalone-debug -fno-omit-frame-pointer
 
 ifeq ($(UNAME_S),Darwin)
 #################################### MACOS ####################################
@@ -13,7 +13,7 @@ TARGET = ginkgo_mac
 LIB_NAME := ginkgo_lib.a
 BUILDDIR = build/mac
 CXXFLAGS_COMMON += -fPIC  -I/opt/homebrew/opt/glfw/include
-                   
+
 APP_EXTRA_OBJ = $(BUILDDIR)/mac_touch_input.o
 LDFLAGS_COMMON   = -L/opt/homebrew/opt/glfw/lib -lglfw -lcurl \
                    -framework Cocoa -framework IOKit -framework CoreVideo \
@@ -24,7 +24,8 @@ TARGET = ginkgo_linux
 LIB_NAME := ginkgo_lib.a
 BUILDDIR = build/linux
 CXXFLAGS_COMMON += -fPIC -D__LINUX__
-APP_EXTRA_OBJ = 
+APP_EXTRA_OBJ =
+LDFLAGS_COMMON = -lglfw -lcurl -lGL -lasound
 else ifeq ($(OS),Windows_NT)
 #################################### WINDOWS ####################################
 TARGET = ginkgo_windows
@@ -32,7 +33,7 @@ LIB_NAME := ginkgo_lib.lib
 BUILDDIR = build/windows
 CXXFLAGS_COMMON += -D__WINDOWS__
 LDFLAGS_COMMON  = -lglfw3 -lcurl -lopengl32 -lws2_32 -lwinmm -lgdi32
-APP_EXTRA_OBJ = 
+APP_EXTRA_OBJ =
 else
 
     $(error Unsupported platform)
